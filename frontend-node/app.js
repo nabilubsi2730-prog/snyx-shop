@@ -6,7 +6,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Gunakan variabel yang baru saja kita atur di Vercel
+// Menggunakan variabel lingkungan dari Vercel
 const BACKEND_URL = process.env.BACKEND_API_URL || 'https://snyxshop.pythonanywhere.com';
 
 app.get('/', async (req, res) => {
@@ -17,6 +17,8 @@ app.get('/', async (req, res) => {
             guitars: response.data 
         });
     } catch (error) {
+        // Log error ke terminal Vercel agar kita bisa lihat jika ada masalah
+        console.error("Backend Error:", error.message);
         res.status(500).send(`Gagal akses data di: ${BACKEND_URL}. Error: ${error.message}`);
     }
 });
